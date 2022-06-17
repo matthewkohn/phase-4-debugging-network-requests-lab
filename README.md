@@ -63,11 +63,24 @@ developing your own process.
 - Add a new toy when the toy form is submitted
 
   - How I debugged:
+  Saw a 500 Internal Server Error in my server terminal as well as the Network tab in Chrome Dev Tools
+  The exception is NameError (uninitialized constant ToysController::Toys): app/controllers/toys_controller.rb:10 in 'create'
+  Added byebug to the create method in toys_controller, tried creating a new toy, and tested params in byebug
+  I noticed the create method was being called on Toys (pluralized), needs to be singular.
+  Works after I corrected the typo
+
 
 - Update the number of likes for a toy
 
   - How I debugged:
+  Saw a SyntaxError: Unexpected end of JSON input at ToyCard.js:21:1 in Chrome Dev Tools,
+  Noticed in my server terminal "Unpermitted parameter: :id" that points to app/controllers/toys_controller.rb:17 in 'update'
+  Added byebug to the update method in toys_controller, and noticed render json: was missing
+  Added render json: toy, adding likes now works with no errors
+
 
 - Donate a toy to Goodwill (and delete it from our database)
 
   - How I debugged:
+  Found ActionController::RoutingError (No route matches [DELETE] "/toys/1"): in server terminal
+  Looked in config/routes.rb and saw ":destroy" was missing from our toys routes. Worked after I added it.
